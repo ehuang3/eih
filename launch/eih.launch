@@ -1,0 +1,23 @@
+<!-- Entry point for using OpenNI devices -->
+<launch>
+
+  <!-- "camera" should uniquely identify the device. All topics are pushed down
+       into the "camera" namespace, and it is prepended to tf frame ids. -->
+  <arg name="camera" default="pointgrey" />
+
+  <!-- Disable bond topics by default -->
+  <arg name="respawn" default="false" />
+
+  <!-- Start nodelet manager in top-level namespace -->
+  <arg name="manager" value="$(arg camera)_nodelet_manager" />
+  <arg name="debug" default="false" /> <!-- Run manager in GDB? -->
+  <include file="$(find eih)/launch/manager.launch">
+    <arg name="name" value="$(arg manager)" />
+    <arg name="debug" value="$(arg debug)" />
+  </include>
+
+  <include file="$(find eih)/launch/pointgrey_camera.launch" >
+    <arg name="manager" value="/$(arg manager)" /> <!--Fully resolved-->
+  </include>
+
+</launch>
