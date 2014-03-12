@@ -16,8 +16,8 @@ include_directories(${EIGEN_INCLUDE_DIRS})
 add_definitions(${EIGEN_DEFINITIONS})
 
 ## Include Qt
-find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED)
-include(${QT_USE_FILE})
+# find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED)
+# include(${QT_USE_FILE})
 
 # Include the OpenCV library
 find_package(OpenCV REQUIRED)
@@ -93,8 +93,8 @@ catkin_package(
   INCLUDE_DIRS include
   LIBRARIES eih
   CATKIN_DEPENDS sensor_msgs std_msgs tf cv_bridge
-  DEPENDS system_lib QtCore QtGui
-)
+  DEPENDS system_lib
+  )
 
 ######################
 ## Qt configuration ##
@@ -120,6 +120,9 @@ link_libraries(${catkin_LIBRARIES})
 # file(GLOB nodes_source "src/nodes/*.cpp")
 # list(SORT nodes_source)
 
+file(GLOB nodelets_source "src/nodelets/*.cpp")
+list(SORT nodelets_source)
+
 file(GLOB utils_source "src/utils/*.cpp")
 list(SORT utils_source)
 
@@ -127,7 +130,7 @@ list(SORT utils_source)
 # set(plugins_source ${plugins_source} ${MOC_FILES}) # Add Qt auto-generated files to plugins
 # list(SORT plugins_source)
 
-file(GLOB include_source "include/iarrc_tutorials/*.h")
+file(GLOB include_source "include/eih/*.h")
 list(SORT include_source)
 
 ## Declare a cpp library
@@ -149,15 +152,26 @@ list(SORT include_source)
 # 	set_target_properties(${node_base} PROPERTIES COMPILE_FLAGS ${BUILD_FLAGS})
 # endforeach(node_src_file)
 
+# Build nodelets
+message(STATUS "\n-- ROS NODELETS: ")
+foreach(nodelet_src_file ${nodelets_source})
+  get_filename_component(nodelet_base ${nodelet_src_file} NAME_WE)
+  message(STATUS "Adding ROS Nodelet ${nodelet_base}" )
+  add_library(${nodelet_base} ${nodelet_src_file} ${include_source})
+  target_link_libraries(${nodelet_base} ${catkin_LIBRARIES}) #${PROJECT_NAME})
+  add_dependencies(${nodelet_base} eih_msgs_gencpp)
+  set_target_properties(${nodelet_base} PROPERTIES COMPILE_FLAGS ${BUILD_FLAGS})
+endforeach(nodelet_src_file)
+
 # Build utilities
 message(STATUS "\n-- UTILITY SCRIPTS: ")
 foreach(util_src_file ${utils_source})
-	get_filename_component(util_base ${util_src_file} NAME_WE)
-	message(STATUS "Adding ROS util ${util_base}" )
-	add_executable(${util_base} ${util_src_file} ${include_source})
-	# target_link_libraries(${util_base} ${PROJECT_NAME})
-	add_dependencies(${util_base} eih_msgs_gencpp)
-	set_target_properties(${util_base} PROPERTIES COMPILE_FLAGS ${BUILD_FLAGS})
+  get_filename_component(util_base ${util_src_file} NAME_WE)
+  message(STATUS "Adding ROS util ${util_base}" )
+  add_executable(${util_base} ${util_src_file} ${include_source})
+  # target_link_libraries(${util_base} ${PROJECT_NAME})
+  add_dependencies(${util_base} eih_msgs_gencpp)
+  set_target_properties(${util_base} PROPERTIES COMPILE_FLAGS ${BUILD_FLAGS})
 endforeach(util_src_file)
 
 #############

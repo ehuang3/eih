@@ -1,7 +1,8 @@
 <launch>
 
   <arg name="manager"         default="" />
-  <arg name="serial"          default="13460351" />
+  <!-- <arg name="serial"          default="13460351" /> -->
+  <arg name="serial"          default="13344929" />
   <arg name="camera_info_url" default="" />
   <arg name="camera_name"     default="pointgrey" />
   <arg name="frame_id"        default="pointgrey_optical_frame" />
@@ -17,7 +18,8 @@
       <remap from="/tf" to="$(arg remapped_tf)" />
     </node>
     <!-- <node pkg="nodelet" type="nodelet" name="ip_nodelet" output="$(arg output)" args="load image_proc/debayer $(arg manager)" > -->
-    <!-- </node> -->  <!-- Debayer node not working? -->
+    <!-- </node>   -->
+    <!-- Debayer node not working? -->
   </group>
 
 </launch>

@@ -1,0 +1,7 @@
+<library path="lib/libdebayer">
+  <class name="eih/debayer" type="eih::DebayerNodelet" base_class_type="nodelet::Nodelet">
+    <description>
+      Debayering nodelet.
+    </description>
+  </class>
+</library>
