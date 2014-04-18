@@ -1,0 +1,20 @@
+###############################################################################
+# Config file for EIH
+#
+# This sets the following variables:
+# EIH_INCLUDE_DIRS - Directories containing the EIH include files.
+# EIH_LIBRARIES - Libraries needed to use EIH.
+# EIH_LIBRARY_DIRS - Directories that contain the EIH libraries.
+
+get_filename_component(CURRENT_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+
+set(EIH_INCLUDE_DIRS
+  "@CMAKE_INSTALL_PREFIX@/include"
+  "@Eigen_INCLUDE_DIRS@"
+)
+
+set(EIH_LIBRARY_DIRS "@CMAKE_INSTALL_PREFIX@/lib" "@Boost_LIBRARY_DIRS@")
+
+include("${CURRENT_DIR}/EIHTargets.cmake")
+
+set(EIH_LIBRARIES eih)
