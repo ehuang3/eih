@@ -63,7 +63,7 @@ if(MSVC)
   set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MD /Zi /GL /Gy /W1 /EHsc /arch:SSE2")
   set(CMAKE_EXE_LINKER_FLAGS_RELEASE "/LTCG")
 elseif(CMAKE_COMPILER_IS_GNUCXX OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-  set(CMAKE_CXX_FLAGS "-msse2 -fPIC")
+  set(CMAKE_CXX_FLAGS "-msse2 -fPIC -std=c++0x")
   set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
   set(CMAKE_CXX_FLAGS_DEBUG "-g -fno-omit-frame-pointer -fno-inline-functions -fno-inline-functions-called-once -fno-optimize-sibling-calls")
   set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELEASE} ${CMAKE_CXX_FLAGS_DEBUG}")
@@ -88,6 +88,11 @@ find_package(FCL REQUIRED)
 find_package(Assimp REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(NLOPT REQUIRED)
+find_package(OpenCV REQUIRED)
+find_package(Curses REQUIRED)
+set(Curses_LIBRARIES curses)
+find_package(Log4cxx REQUIRED)
+find_package(FlyCapture2)
 
 # IPOPT
 find_package(IPOPT)
@@ -164,6 +169,8 @@ include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${OPENGL_INCLUDE_DIR})
 include_directories(${GLUT_INCLUDE_DIR})
 include_directories(${NLOPT_INCLUDE_DIRS})
+include_directories(${OpenCV_INCLUDE_DIRS})
+include_directories(${Curses_INCLUDE_DIR})
 if(HAVE_IPOPT)
   include_directories(${IPOPT_INCLUDE_DIRS})
 endif()
@@ -193,7 +200,10 @@ set(EIH_CORE_DEPENDENCIES ${FCL_LIBRARIES}
                            ${Boost_LIBRARIES}
                            ${OPENGL_LIBRARIES}
                            ${GLUT_LIBRARY}
-                           ${NLOPT_LIBRARIES})
+                           ${NLOPT_LIBRARIES}
+                           ${OpenCV_LIBS}
+                           ${Curses_LIBRARIES}
+                           ${Log4cxx_LIBRARIES})
 if(HAVE_IPOPT)
   set(EIH_CORE_DEPENDENCIES ${EIH_CORE_DEPENDENCIES} ${IPOPT_LIBRARIES})
 endif()
@@ -320,7 +330,7 @@ endif()
 
 set(CPACK_PACKAGE_VERSION "${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
 set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}_${CPACK_PACKAGE_VERSION}_${CPACK_SYSTEM_NAME}")
-set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Karen Liu (www.cc.gatech.edu/~karenliu/)")
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Eric Huang (www.cc.gatech.edu/~ehuang/)")
 
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${PKG_DESC}")
 set(CPACK_PACKAGE_VENDOR "Computer Graphics Lab at GT")

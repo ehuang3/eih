@@ -1,0 +1,6 @@
+find_library(FLYCAPTURE flycapture HINTS "/usr/lib/" "/usr/local/lib" ENV PATHS)
+if (FLYCAPTURE)
+	link_libraries(${FLYCAPTURE})
+else (FLYCAPTURE)
+	message("${FLYCAPTURE}" " Will not build Flea3 components")
+endif (FLYCAPTURE)

@@ -6,7 +6,7 @@ if(MSVC)
 endif()
 
 set(CORE_SUBDIRS camera eih gnuplot)
-set(NONCORE_SUBDIRS utils)
+set(NONCORE_SUBDIRS utils gui)
 # optimizer is also a NONCORE_SUBDIR, but it will be handled separately
 
 # Search all header and source files

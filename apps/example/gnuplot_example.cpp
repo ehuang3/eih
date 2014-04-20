@@ -7,7 +7,7 @@
 
 
 #include <iostream>
-#include <gnuplot/gnuplot_i.hpp> //Gnuplot class handles POSIX-Pipe-communikation with Gnuplot
+#include <eih/gnuplot/gnuplot_i.hpp> //Gnuplot class handles POSIX-Pipe-communikation with Gnuplot
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__TOS_WIN__)
  #include <conio.h>   //for getch(), needed in wait_for_key()

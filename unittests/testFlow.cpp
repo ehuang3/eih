@@ -58,7 +58,7 @@ TEST(OPTICAL_FLOW, YOSEMITE_FARNEBACK) {
 	cv::cvtColor(yosemite_seq[0], prev, cv::COLOR_BGR2GRAY);
 	for(int i=1; i < yosemite_seq.size(); i++) {
 		cv::cvtColor(yosemite_seq[i], next, cv::COLOR_BGR2GRAY);
-		cv::calcOpticalFlowFarneback(prev, next, flow, 
+		// cv::calcOpticalFlowFarneback(prev, next, flow, 
 	}
 }
 
