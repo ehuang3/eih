@@ -8,6 +8,9 @@
   <!-- Disable bond topics by default -->
   <arg name="respawn" default="false" />
 
+  <env name="ROSCONSOLE_CONFIG_FILE"
+       value="$(find eih)/config/pointgrey_rosconsole.config" />
+
   <!-- Start nodelet manager in top-level namespace -->
   <arg name="manager" value="$(arg camera)_nodelet_manager" />
   <arg name="debug" default="false" /> <!-- Run manager in GDB? -->
@@ -16,6 +19,7 @@
     <arg name="debug" value="$(arg debug)" />
   </include>
 
+  <!-- Launch cameras -->
   <include file="$(find eih)/launch/pointgrey_camera.launch" >
     <arg name="manager" value="/$(arg manager)" /> <!--Fully resolved-->
   </include>
